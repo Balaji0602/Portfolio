@@ -18,6 +18,9 @@ jobs:
     name: Build & Deploy
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: ./balag-portfolio
 
     steps:
       - name: Checkout code
@@ -28,11 +31,15 @@ jobs:
         with:
           node-version: '20'
           cache: 'npm'
+          cache-dependency-path: './balag-portfolio/package-lock.json'
 
       - name: Install Dependencies
         run: npm ci
 
       - name: Build Application
+        # Uncomment and add secrets if your build requires environment variables (e.g., API URLs for Vite/React)
+        env:
+          VITE_API_BASE_URL: ${{ secrets.VITE_API_BASE_URL }}
         run: npm run build
 
       - name: Configure AWS Credentials using OIDC
@@ -40,9 +47,12 @@ jobs:
         with:
           role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
           aws-region: ${{ secrets.AWS_REGION }}
-      - name: Deploy to S3
-        run: |
-          aws s3 sync dist/ s3://${{ secrets.AWS_S3_BUCKET }} --delete
+      - name: Deploy static assets to S3 (Cache forever)
+        run: aws s3 sync dist/ s3://${{ secrets.AWS_S3_BUCKET }} --exclude "index.html" --delete --cache-control "max-age=31536000, public"
+
+      - name: Deploy index.html to S3 (No cache)
+        run: aws s3 cp dist/index.html s3://${{ secrets.AWS_S3_BUCKET }}/index.html --cache-control "no-cache, no-store, must-revalidate"
+
       - name: Invalidate CloudFront Cache
         run: |
-          aws cloudfront create-invalidation --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} --paths "/*"
+          aws cloudfront create-invalidation --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} --paths "/*" --wait
