@@ -572,7 +572,7 @@ function About({ darkMode }) {
                 <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
                   <span style={{ fontSize: 20 }}>🎓</span>
                   <div>
-                    <div style={{ fontFamily: "'Inter', sans-serif", fontSize: 14, fontWeight: 600, color: darkMode ? "#E2E8F0" : "#1E1E1E" }}>B.E. Computer Science</div>
+                    <div style={{ fontFamily: "'Inter', sans-serif", fontSize: 14, fontWeight: 600, color: darkMode ? "#E2E8F0" : "#1E1E1E" }}>B.E. Electronics and Communication Engineering</div>
                     <div style={{ fontFamily: "'Inter', sans-serif", fontSize: 13, color: darkMode ? "#64748B" : "#9CA3AF" }}>2019 – 2023</div>
                   </div>
                 </div>
