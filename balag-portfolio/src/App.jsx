@@ -4,10 +4,10 @@ import { motion, useScroll, useTransform, useInView, AnimatePresence } from "fra
 const NAV_LINKS = ["About", "Skills", "Services", "Projects", "Contact"];
 
 const SKILLS = {
-  Frontend: ["React", "HTML5", "CSS3", "Material UI"],
+  Frontend: ["React.JS", "HTML5", "CSS3", "Material UI"],
   Backend: ["Node.js", "Express.js", "Python", "FastAPI", "REST APIs", "Microservices"],
   Database: ["PostgreSQL", "MySQL"],
-  Cloud: ["AWS Lambda", "API Gateway", "CloudWatch", "S3"],
+  Cloud: ["AWS Lambda", "API Gateway", "CloudWatch", "S3", "CloudFront", "IAM", "CI/CD"],
   Programming: ["JavaScript", "TypeScript", "Python"],
   "Core CS": ["Data Structures", "Algorithms", "OOPs", "Design Patterns"],
   AI: ["Generative AI", "Agentic AI", "Prompt Engineering"],
@@ -28,7 +28,7 @@ const SERVICES = [
     icon: "⚡",
     title: "Full Stack Web Development",
     desc: "End-to-end React & Node.js applications with clean architecture, modern UI, and robust backend systems.",
-    tags: ["React", "Node.js", "PostgreSQL"],
+    tags: ["React.JS", "Node.js", "PostgreSQL"],
   },
   {
     icon: "🔗",
@@ -45,8 +45,8 @@ const SERVICES = [
   {
     icon: "☁️",
     title: "Cloud Deployment",
-    desc: "AWS-based serverless deployments using Lambda, API Gateway, and CloudWatch monitoring.",
-    tags: ["AWS Lambda", "API Gateway", "CloudWatch"],
+    desc: "Secure AWS cloud deployments using Lambda, API Gateway, S3, CloudFront, and automated CI/CD pipelines.",
+    tags: ["AWS Lambda", "API Gateway", "S3", "CloudFront", "IAM", "CloudWatch", "CI/CD"],
   },
 ];
 
@@ -514,7 +514,7 @@ function About({ darkMode }) {
                   📅 Feb 2026 – Present
                 </div>
                 <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
-                  {["Python", "Generative AI", "Agentic AI", "React", "Node.js", "TypeScript", "LLMs", "RAG"].map((tech) => (
+                  {["Python", "Generative AI", "Agentic AI", "React.JS", "Node.js", "TypeScript", "LLMs", "RAG"].map((tech) => (
                     <span key={tech} style={{
                       padding: "4px 12px", borderRadius: 8,
                       background: "linear-gradient(135deg, rgba(16,185,129,0.1), rgba(5,150,105,0.1))",
@@ -547,7 +547,7 @@ function About({ darkMode }) {
                   📅 June 2023 – Feb 2026
                 </div>
                 <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
-                  {["React", "Node.js", "PostgreSQL", "AWS Lambda", "Microservices", "TypeScript"].map((tech) => (
+                  {["React.JS", "Node.js", "PostgreSQL", "AWS Lambda", "Microservices", "TypeScript"].map((tech) => (
                     <span key={tech} style={{
                       padding: "4px 12px", borderRadius: 8,
                       background: "linear-gradient(135deg, rgba(91,108,255,0.12), rgba(110,58,255,0.12))",
