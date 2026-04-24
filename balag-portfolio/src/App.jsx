@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
-import { motion, useScroll, useTransform, useInView, AnimatePresence } from "framer-motion";
+// eslint-disable-next-line no-unused-vars
+import { motion, useInView, AnimatePresence } from "framer-motion";
 
 const NAV_LINKS = ["About", "Skills", "Services", "Projects", "Contact"];
 
@@ -284,7 +285,7 @@ function Hero({ darkMode }) {
     document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
     try {
       await fetch("/api/contact-notification", { method: "POST" });
-    } catch (_) {}
+    } catch (e) { console.error(e); }
   };
 
   return (
@@ -414,15 +415,15 @@ function Hero({ darkMode }) {
 
             {/* Floating badges */}
             {[
-              { icon: "⚛️", label: "React", x: -80, y: -60 },
-              { icon: "🟩", label: "Node.js", x: 90, y: -40 },
-              { icon: "☁️", label: "AWS", x: -70, y: 80 },
-              { icon: "🐘", label: "PostgreSQL", x: 95, y: 70 },
+              { icon: "⚛️", label: "React", x: -80, y: -60, dur: 4.2, del: 1.5 },
+              { icon: "🟩", label: "Node.js", x: 90, y: -40, dur: 3.5, del: 0.2 },
+              { icon: "☁️", label: "AWS", x: -70, y: 80, dur: 4.8, del: 2.1 },
+              { icon: "🐘", label: "PostgreSQL", x: 95, y: 70, dur: 3.9, del: 0.8 },
             ].map((badge) => (
               <motion.div
                 key={badge.label}
                 animate={{ y: [0, -6, 0] }}
-                transition={{ duration: 3 + Math.random() * 2, repeat: Infinity, ease: "easeInOut", delay: Math.random() * 2 }}
+                transition={{ duration: badge.dur, repeat: Infinity, ease: "easeInOut", delay: badge.del }}
                 style={{
                   position: "absolute",
                   left: `calc(50% + ${badge.x}px)`,
@@ -923,6 +924,7 @@ function Contact({ darkMode }) {
         setAlert({ show: false, msg: "", type: "" });
       }, 1200);
     } catch (error) {
+      console.error(error);
       setAlert({ show: true, msg: 'Error. Try again.', type: 'error' });
       setStep("form");
       setTimeout(() => setAlert({ show: false, msg: "", type: "" }), 3000);
@@ -1156,7 +1158,7 @@ const headingStyle = (darkMode) => ({
   letterSpacing: "-1px",
 });
 
-function SectionLabel({ label, darkMode }) {
+function SectionLabel({ label }) {
   return (
     <motion.div
       variants={fadeUp}
@@ -1178,12 +1180,12 @@ function SectionLabel({ label, darkMode }) {
 // ─── Main App ────────────────────────────────────────────────────────────────
 
 export default function App() {
-  const [darkMode, setDarkMode] = useState(false);
-
-  useEffect(() => {
-    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-    setDarkMode(prefersDark);
-  }, []);
+  const [darkMode, setDarkMode] = useState(() => {
+    if (typeof window !== "undefined") {
+      return window.matchMedia("(prefers-color-scheme: dark)").matches;
+    }
+    return false;
+  });
 
   const bg = darkMode ? "#080815" : "#F8F9FF";
   const textColor = darkMode ? "#F1F5F9" : "#1E1E1E";
