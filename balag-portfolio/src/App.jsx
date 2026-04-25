@@ -1099,26 +1099,35 @@ function Projects({ darkMode }) {
           </motion.div>
         </motion.div>
 
-        {selectedProject && (
-          <div 
-            style={{
-              position: "fixed", top: 0, left: 0, right: 0, bottom: 0, zIndex: 999,
-              background: darkMode ? "rgba(10,10,20,0.9)" : "rgba(248,249,255,0.9)",
-              backdropFilter: "blur(10px)",
-              display: "flex", alignItems: "center", justifyContent: "center", padding: "20px"
-            }} 
-            onClick={() => setSelectedProject(null)}
-          >
-            <div 
-              className="project-modal"
+        <AnimatePresence>
+          {selectedProject && (
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
               style={{
-                background: darkMode ? "rgba(30,30,50,0.95)" : "#fff",
-                border: `1px solid ${darkMode ? "rgba(255,255,255,0.1)" : "rgba(91,108,255,0.15)"}`,
-                borderRadius: 24, padding: "40px", maxWidth: 800, width: "100%", maxHeight: "90vh",
-                overflowY: "auto", boxShadow: darkMode ? "0 20px 80px rgba(0,0,0,0.6)" : "0 20px 80px rgba(91,108,255,0.15)"
+                position: "fixed", top: 0, left: 0, right: 0, bottom: 0, zIndex: 999,
+                background: darkMode ? "rgba(10,10,20,0.9)" : "rgba(248,249,255,0.9)",
+                backdropFilter: "blur(10px)",
+                display: "flex", alignItems: "center", justifyContent: "center", padding: "20px"
               }} 
-              onClick={e => e.stopPropagation()}
+              onClick={() => setSelectedProject(null)}
             >
+              <motion.div 
+                initial={{ opacity: 0, scale: 0.95, y: 20 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.95, y: 20 }}
+                transition={{ duration: 0.4, type: "spring", damping: 25, stiffness: 300 }}
+                className="project-modal"
+                style={{
+                  background: darkMode ? "rgba(30,30,50,0.95)" : "#fff",
+                  border: `1px solid ${darkMode ? "rgba(255,255,255,0.1)" : "rgba(91,108,255,0.15)"}`,
+                  borderRadius: 24, padding: "40px", maxWidth: 800, width: "100%", maxHeight: "90vh",
+                  overflowY: "auto", boxShadow: darkMode ? "0 20px 80px rgba(0,0,0,0.6)" : "0 20px 80px rgba(91,108,255,0.15)"
+                }} 
+                onClick={e => e.stopPropagation()}
+              >
               {(() => {
                 const details = PROJECT_DETAILS[selectedProject];
                 if (!details) return null;
@@ -1179,9 +1188,10 @@ function Projects({ darkMode }) {
                   </>
                 );
               })()}
-            </div>
-          </div>
-        )}
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </section>
   );
