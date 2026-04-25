@@ -53,14 +53,188 @@ const SERVICES = [
 
 const PROJECTS = [
   {
+    id: "racpad",
     title: "POS System — RACPad",
-    description: "A full-featured Point-of-Sale system with inventory management, dynamic pricing, and customer relationship features.",
-    tech: ["React", "Node.js", "PostgreSQL", "AWS"],
+    description:
+      "Enterprise-grade Point-of-Sale (POS) system built for retail environments with inventory, pricing, customer lifecycle, and transaction workflows.",
+    tech: ["React", "Node.js", "PostgreSQL", "AWS", "Microservices"],
     color: "#5B6CFF",
-    highlights: ["Inventory Management", "Pricing Engine", "Customer CRM"],
+    highlights: [
+      "Inventory & Stock Management",
+      "Dynamic Pricing Engine",
+      "Customer CRM",
+      "80% Performance Optimization"
+    ],
     icon: "🛒",
   },
+  {
+    id: "inventory",
+    title: "Inventory Management System",
+    description:
+      "Full-stack inventory system for managing products, stock levels, and transactions for small retail operations.",
+    tech: ["React", "Python", "Flask", "PostgreSQL"],
+    color: "#10B981",
+    highlights: [
+      "Product & Stock Management",
+      "CRUD APIs",
+      "Transaction Tracking",
+      "Responsive UI"
+    ],
+    icon: "📦",
+  },
+  {
+    id: "library",
+    title: "Library Management System",
+    description:
+      "Backend system for managing books, users, and borrowing workflows with scalable API architecture.",
+    tech: ["Python", "FastAPI", "PostgreSQL"],
+    color: "#F59E0B",
+    highlights: [
+      "Book & User Management",
+      "Borrow/Return System",
+      "REST APIs",
+      "Modular Architecture"
+    ],
+    icon: "📚",
+  },
+  {
+    id: "portfolio",
+    title: "Portfolio Website",
+    description:
+      "Personal portfolio website showcasing projects and skills with modern UI and AWS-based deployment.",
+    tech: ["React", "Vite", "AWS S3", "CloudFront", "CI/CD"],
+    color: "#8B5CF6",
+    highlights: [
+      "Modern UI/UX",
+      "Responsive Design",
+      "AWS Deployment",
+      "CI/CD Pipeline"
+    ],
+    icon: "🌐",
+  },
 ];
+
+const PROJECT_DETAILS = {
+  racpad: {
+    title: "RACPad — POS System",
+    overview:
+      "Large-scale POS system for retail businesses handling inventory, pricing, promotions, customer lifecycle, and transactions using microservices architecture.",
+    features: [
+      "Inventory & stock tracking",
+      "Dynamic pricing & promotions",
+      "Customer CRM",
+      "Billing & transaction workflows"
+    ],
+    responsibilities: [
+      "Built frontend using React.js",
+      "Developed backend services using Node.js",
+      "Implemented microservices architecture",
+      "Optimized performance by 80%",
+      "Optimized PostgreSQL queries",
+      "Integrated multiple services via REST APIs"
+    ],
+    techStack: [
+      "React.js", "Node.js", "PostgreSQL", "AWS Lambda", "API Gateway", "CloudWatch"
+    ],
+    devops: [
+      "CI/CD pipeline setup",
+      "AWS deployment",
+      "CloudWatch monitoring"
+    ],
+    impact: [
+      "80% performance improvement",
+      "Reduced backend latency",
+      "Improved scalability"
+    ]
+  },
+
+  inventory: {
+    title: "Inventory Management System",
+    overview:
+      "A full-stack system for managing product inventory, stock levels, and transactions for retail businesses.",
+    features: [
+      "Product management",
+      "Stock updates",
+      "Transaction tracking",
+      "CRUD operations"
+    ],
+    responsibilities: [
+      "Built UI with React.js",
+      "Developed backend using Python Flask",
+      "Designed PostgreSQL schema",
+      "Implemented REST APIs"
+    ],
+    techStack: [
+      "React.js", "Python", "Flask", "PostgreSQL"
+    ],
+    devops: [
+      "Git-based version control",
+      "GitHub project hosting"
+    ],
+    impact: [
+      "Simplified inventory tracking",
+      "Improved data organization"
+    ]
+  },
+
+  library: {
+    title: "Library Management System",
+    overview:
+      "Backend system for managing books, users, and borrowing workflows with scalable API architecture.",
+    features: [
+      "Book catalog management",
+      "Borrow/return system",
+      "User tracking"
+    ],
+    responsibilities: [
+      "Built REST APIs using FastAPI",
+      "Designed database schema",
+      "Implemented modular architecture",
+      "Handled CRUD operations"
+    ],
+    techStack: [
+      "Python", "FastAPI", "PostgreSQL"
+    ],
+    devops: [
+      "Structured backend architecture",
+      "Scalable API design"
+    ],
+    impact: [
+      "Improved data handling",
+      "Efficient borrowing workflows"
+    ]
+  },
+
+  portfolio: {
+    title: "Portfolio Website",
+    overview:
+      "A modern personal portfolio website showcasing projects and skills with cloud deployment and CI/CD integration.",
+    features: [
+      "Responsive UI",
+      "Project showcase",
+      "Smooth animations",
+      "Contact integration"
+    ],
+    responsibilities: [
+      "Built UI using React + Vite",
+      "Designed responsive layout",
+      "Implemented animations",
+      "Configured AWS deployment"
+    ],
+    techStack: [
+      "React.js", "Vite", "AWS S3", "CloudFront"
+    ],
+    devops: [
+      "CI/CD pipeline setup",
+      "Deployed using AWS S3 & CloudFront",
+      "Automated build & deployment workflow"
+    ],
+    impact: [
+      "Improved online presence",
+      "Showcases technical skills effectively"
+    ]
+  }
+};
 
 
 const useScrollReveal = (threshold = 0.15) => {
@@ -780,8 +954,28 @@ function Services({ darkMode }) {
 
 function Projects({ darkMode }) {
   const [ref, inView] = useScrollReveal();
+  const [selectedProject, setSelectedProject] = useState(null);
+
   return (
     <section id="projects" style={{ padding: "100px 5%", position: "relative" }} ref={ref}>
+      <style>{`
+        .project-card-group .project-overlay {
+          opacity: 0;
+          transition: opacity 0.3s ease;
+        }
+        .project-card-group .view-details-cta {
+          transform: translateX(0);
+          transition: transform 0.3s ease;
+        }
+        @media (hover: hover) {
+          .project-card-group:hover .project-overlay {
+            opacity: 1;
+          }
+          .project-card-group:hover .view-details-cta {
+            transform: translateX(4px);
+          }
+        }
+      `}</style>
       <div style={{
         position: "absolute", inset: 0,
         background: darkMode
@@ -801,19 +995,49 @@ function Projects({ darkMode }) {
           >
             {PROJECTS.map((project, i) => (
               <motion.div
-                key={project.title}
+                key={project.id}
                 variants={fadeUp}
                 custom={i}
-                whileHover={{ y: -10 }}
+                whileHover={{ 
+                  y: -8, 
+                  scale: 1.02,
+                  boxShadow: darkMode ? "0 20px 60px rgba(0,0,0,0.6)" : "0 20px 60px rgba(91,108,255,0.15)"
+                }}
+                whileTap={{ scale: 0.97 }}
+                onClick={() => {
+                  setTimeout(() => setSelectedProject(project.id), 150);
+                }}
+                className="project-card-group"
                 style={{
-                  borderRadius: 24, overflow: "hidden",
+                  borderRadius: 24, overflow: "hidden", position: "relative",
                   background: darkMode ? "rgba(30,30,50,0.8)" : "#fff",
                   border: `1px solid ${darkMode ? "rgba(255,255,255,0.08)" : "rgba(91,108,255,0.1)"}`,
                   boxShadow: darkMode ? "0 8px 40px rgba(0,0,0,0.4)" : "0 8px 40px rgba(91,108,255,0.08)",
-                  transition: "all 0.4s cubic-bezier(0.22, 1, 0.36, 1)",
-                  cursor: "default",
+                  transition: "background 0.4s, border 0.4s",
+                  cursor: "pointer",
                 }}
               >
+                {/* Overlay Hint */}
+                <div 
+                  className="project-overlay"
+                  style={{
+                    position: "absolute", inset: 0, zIndex: 10,
+                    background: darkMode ? "linear-gradient(to top, rgba(30,30,50,0.85), transparent)" : "linear-gradient(to top, rgba(255,255,255,0.85), transparent)",
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                    pointerEvents: "none"
+                  }}
+                >
+                  <span style={{
+                    fontFamily: "'Inter', sans-serif", fontWeight: 600, fontSize: 15,
+                    color: project.color, padding: "10px 20px", borderRadius: 100,
+                    background: darkMode ? "rgba(10,10,20,0.8)" : "rgba(255,255,255,0.9)",
+                    backdropFilter: "blur(4px)",
+                    boxShadow: "0 4px 12px rgba(0,0,0,0.1)"
+                  }}>
+                    Click to view details
+                  </span>
+                </div>
+
                 {/* Header gradient */}
                 <div style={{
                   height: 140, position: "relative", overflow: "hidden",
@@ -834,7 +1058,7 @@ function Projects({ darkMode }) {
                 </div>
 
                 {/* Content */}
-                <div style={{ padding: 28 }}>
+                <div style={{ padding: 28, paddingBottom: 24 }}>
                   <h3 style={{ fontFamily: "'Poppins', sans-serif", fontWeight: 700, fontSize: 18, color: darkMode ? "#E2E8F0" : "#1E1E1E", marginBottom: 10 }}>
                     {project.title}
                   </h3>
@@ -853,7 +1077,7 @@ function Projects({ darkMode }) {
                   </div>
 
                   {/* Tech tags */}
-                  <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
+                  <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginBottom: 24 }}>
                     {project.tech.map((t) => (
                       <span key={t} style={{
                         padding: "4px 10px", borderRadius: 6,
@@ -866,11 +1090,98 @@ function Projects({ darkMode }) {
                       </span>
                     ))}
                   </div>
+
+                  {/* View Details CTA */}
+                  
                 </div>
               </motion.div>
             ))}
           </motion.div>
         </motion.div>
+
+        {selectedProject && (
+          <div 
+            style={{
+              position: "fixed", top: 0, left: 0, right: 0, bottom: 0, zIndex: 999,
+              background: darkMode ? "rgba(10,10,20,0.9)" : "rgba(248,249,255,0.9)",
+              backdropFilter: "blur(10px)",
+              display: "flex", alignItems: "center", justifyContent: "center", padding: "20px"
+            }} 
+            onClick={() => setSelectedProject(null)}
+          >
+            <div 
+              className="project-modal"
+              style={{
+                background: darkMode ? "rgba(30,30,50,0.95)" : "#fff",
+                border: `1px solid ${darkMode ? "rgba(255,255,255,0.1)" : "rgba(91,108,255,0.15)"}`,
+                borderRadius: 24, padding: "40px", maxWidth: 800, width: "100%", maxHeight: "90vh",
+                overflowY: "auto", boxShadow: darkMode ? "0 20px 80px rgba(0,0,0,0.6)" : "0 20px 80px rgba(91,108,255,0.15)"
+              }} 
+              onClick={e => e.stopPropagation()}
+            >
+              {(() => {
+                const details = PROJECT_DETAILS[selectedProject];
+                if (!details) return null;
+                return (
+                  <>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 20 }}>
+                      <h2 style={{ fontFamily: "'Poppins', sans-serif", fontWeight: 700, fontSize: 28, color: darkMode ? "#E2E8F0" : "#1E1E1E" }}>
+                        {details.title}
+                      </h2>
+                      <button 
+                        onClick={() => setSelectedProject(null)}
+                        style={{
+                          background: "transparent", border: "none", fontSize: 24, cursor: "pointer",
+                          color: darkMode ? "#94A3B8" : "#6B7280"
+                        }}
+                      >×</button>
+                    </div>
+                    
+                    <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 16, lineHeight: 1.7, color: darkMode ? "#94A3B8" : "#6B7280", marginBottom: 30 }}>
+                      {details.overview}
+                    </p>
+
+                    <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 30 }}>
+                      <div>
+                        <h4 style={{ fontFamily: "'Poppins', sans-serif", color: darkMode ? "#E2E8F0" : "#1E1E1E", marginBottom: 10 }}>Features</h4>
+                        <ul style={{ paddingLeft: 20, color: darkMode ? "#94A3B8" : "#6B7280", fontFamily: "'Inter', sans-serif", fontSize: 14, lineHeight: 1.6 }}>
+                          {details.features.map(f => <li key={f}>{f}</li>)}
+                        </ul>
+
+                        <h4 style={{ fontFamily: "'Poppins', sans-serif", color: darkMode ? "#E2E8F0" : "#1E1E1E", marginTop: 20, marginBottom: 10 }}>Responsibilities</h4>
+                        <ul style={{ paddingLeft: 20, color: darkMode ? "#94A3B8" : "#6B7280", fontFamily: "'Inter', sans-serif", fontSize: 14, lineHeight: 1.6 }}>
+                          {details.responsibilities.map(r => <li key={r}>{r}</li>)}
+                        </ul>
+                      </div>
+                      <div>
+                        <h4 style={{ fontFamily: "'Poppins', sans-serif", color: darkMode ? "#E2E8F0" : "#1E1E1E", marginBottom: 10 }}>Tech Stack</h4>
+                        <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 20 }}>
+                          {details.techStack.map(t => (
+                            <span key={t} style={{
+                              padding: "4px 10px", borderRadius: 6, background: darkMode ? "rgba(91,108,255,0.1)" : "rgba(91,108,255,0.08)",
+                              border: darkMode ? "1px solid rgba(91,108,255,0.2)" : "1px solid rgba(91,108,255,0.15)",
+                              fontFamily: "'JetBrains Mono', monospace", fontSize: 12, color: "#5B6CFF"
+                            }}>{t}</span>
+                          ))}
+                        </div>
+
+                        <h4 style={{ fontFamily: "'Poppins', sans-serif", color: darkMode ? "#E2E8F0" : "#1E1E1E", marginBottom: 10 }}>DevOps & Deployment</h4>
+                        <ul style={{ paddingLeft: 20, color: darkMode ? "#94A3B8" : "#6B7280", fontFamily: "'Inter', sans-serif", fontSize: 14, lineHeight: 1.6 }}>
+                          {details.devops.map(d => <li key={d}>{d}</li>)}
+                        </ul>
+
+                        <h4 style={{ fontFamily: "'Poppins', sans-serif", color: darkMode ? "#E2E8F0" : "#1E1E1E", marginTop: 20, marginBottom: 10 }}>Impact</h4>
+                        <ul style={{ paddingLeft: 20, color: darkMode ? "#94A3B8" : "#6B7280", fontFamily: "'Inter', sans-serif", fontSize: 14, lineHeight: 1.6 }}>
+                          {details.impact.map(i => <li key={i}>{i}</li>)}
+                        </ul>
+                      </div>
+                    </div>
+                  </>
+                );
+              })()}
+            </div>
+          </div>
+        )}
       </div>
     </section>
   );
