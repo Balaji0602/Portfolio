@@ -68,21 +68,6 @@ const PROJECTS = [
     icon: "🛒",
   },
   {
-    id: "inventory",
-    title: "Inventory Management System",
-    description:
-      "Full-stack inventory system for managing products, stock levels, and transactions for small retail operations.",
-    tech: ["React", "Python", "Flask", "PostgreSQL"],
-    color: "#10B981",
-    highlights: [
-      "Product & Stock Management",
-      "CRUD APIs",
-      "Transaction Tracking",
-      "Responsive UI"
-    ],
-    icon: "📦",
-  },
-  {
     id: "library",
     title: "Library Management System",
     description:
@@ -111,6 +96,21 @@ const PROJECTS = [
       "CI/CD Pipeline"
     ],
     icon: "🌐",
+  },
+  {
+    id: "inventory",
+    title: "Inventory Management System",
+    description:
+      "Full-stack inventory system for managing products, stock levels, and transactions for small retail operations.",
+    tech: ["React", "Python", "Flask", "PostgreSQL"],
+    color: "#10B981",
+    highlights: [
+      "Product & Stock Management",
+      "CRUD APIs",
+      "Transaction Tracking",
+      "Responsive UI"
+    ],
+    icon: "📦",
   },
 ];
 
