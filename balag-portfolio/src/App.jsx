@@ -68,6 +68,41 @@ const PROJECTS = [
     icon: "🛒",
   },
   {
+    id: "ellora",
+    title: "Ellora's Beauty N Style",
+    description: "Modern frontend beauty salon platform with Google Sheets CMS and automated AWS deployment.",
+    tech: ["React", "Vite", "AWS CloudFront", "Google Sheets API"],
+    color: "#EC4899",
+    imagePath: "/assets/ellora-image.jpeg",
+    imageDarkMode: "/assets/ellora-image.jpeg",
+    imageLightMode: "/assets/parlour_logo.png",
+    imageUrl: null,
+    projectUrl: "https://ellorasbeautynstyle.in/",
+    highlights: [
+      "Dynamic Pricing via Google Sheets",
+      "Responsive UI/UX",
+      "AWS CloudFront Deployment",
+      "CI/CD Automation"
+    ],
+    icon: "✨",
+  },
+  {
+    id: "salary-api",
+    title: "Employee Salary Management APIs",
+    description: "Pure backend system implementing hierarchical tax calculations using Clean Architecture and TDD.",
+    tech: ["Node.js", "Express", "SQLite", "Jest"],
+    color: "#4F46E5",
+    imagePath: null,
+    imageUrl: null,
+    highlights: [
+      "Clean Architecture",
+      "94% Test Coverage",
+      "TDD (Red-Green-Refactor)",
+      "Hierarchical Tax Engine"
+    ],
+    icon: "💰",
+  },
+  {
     id: "library",
     title: "Library Management System",
     description:
@@ -145,6 +180,65 @@ const PROJECT_DETAILS = {
       "80% performance improvement",
       "Reduced backend latency",
       "Improved scalability"
+    ]
+  },
+
+  ellora: {
+    title: "Ellora's Beauty N Style",
+    overview: "A high-performance frontend application for a beauty salon with dynamic content powered by Google Sheets and deployed using AWS CloudFront.",
+    features: [
+      "Dynamic pricing via Google Sheets",
+      "Service listing and UI rendering",
+      "Fully responsive design",
+      "WhatsApp-based booking flow"
+    ],
+    responsibilities: [
+      "Built complete frontend using React + Vite",
+      "Integrated Google Sheets as CMS",
+      "Handled AWS S3 + CloudFront deployment",
+      "Optimized performance and loading speed"
+    ],
+    techStack: [
+      "React", "Vite", "AWS CloudFront", "S3", "Google Sheets API"
+    ],
+    devops: [
+      "CI/CD Pipeline",
+      "AWS Deployment",
+      "CloudFront CDN"
+    ],
+    impact: [
+      "Zero backend cost setup",
+      "Improved client content control",
+      "Fast global delivery"
+    ]
+  },
+
+  "salary-api": {
+    title: "Employee Salary Management API",
+    overview: "A backend-focused system designed with layered Clean Architecture and TDD principles to handle complex salary and tax calculations.",
+    features: [
+      "Hierarchical tax calculation",
+      "RESTful API design",
+      "Unit + integration testing",
+      "UUID-based data handling"
+    ],
+    responsibilities: [
+      "Designed Controller-Service-Repository architecture",
+      "Implemented full TDD workflow",
+      "Wrote 60+ test cases using Jest",
+      "Optimized SQLite queries"
+    ],
+    techStack: [
+      "Node.js", "Express", "SQLite", "Jest", "Supertest"
+    ],
+    devops: [
+      "TDD Workflow",
+      "Code Quality Enforcement"
+    ],
+    impact: [
+      ">94% test coverage",
+      "Highly maintainable backend",
+      "Scalable architecture"
     ]
   },
 
@@ -1041,16 +1135,22 @@ function Projects({ darkMode }) {
                 {/* Header gradient */}
                 <div style={{
                   height: 140, position: "relative", overflow: "hidden",
-                  background: `linear-gradient(135deg, ${project.color}33, ${project.color}66)`,
+                  background: (project.imageDarkMode && project.imageLightMode) 
+                    ? `linear-gradient(135deg, rgba(0,0,0,0.3), rgba(0,0,0,0.5)), url(${darkMode ? project.imageDarkMode : project.imageLightMode}) center/cover no-repeat`
+                    : (project.imagePath || project.imageUrl)
+                    ? `linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.5)), url(${project.imagePath || project.imageUrl}) center/cover no-repeat`
+                    : `linear-gradient(135deg, ${project.color}33, ${project.color}66)`,
                   display: "flex", alignItems: "center", justifyContent: "center",
                 }}>
-                  <motion.div
-                    animate={{ scale: [1, 1.05, 1], rotate: [0, 5, 0] }}
-                    transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                    style={{ fontSize: 64 }}
-                  >
-                    {project.icon}
-                  </motion.div>
+                  {!(project.imagePath || project.imageUrl || project.imageDarkMode || project.imageLightMode) && (
+                    <motion.div
+                      animate={{ scale: [1, 1.05, 1], rotate: [0, 5, 0] }}
+                      transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                      style={{ fontSize: 64 }}
+                    >
+                      {project.icon}
+                    </motion.div>
+                  )}
                   <div style={{
                     position: "absolute", bottom: 0, left: 0, right: 0, height: 60,
                     background: `linear-gradient(transparent, ${darkMode ? "rgb(30,30,50)" : "#fff"})`,
@@ -1130,6 +1230,7 @@ function Projects({ darkMode }) {
               >
               {(() => {
                 const details = PROJECT_DETAILS[selectedProject];
+                const selected = PROJECTS.find(p => p.id === selectedProject);
                 if (!details) return null;
                 return (
                   <>
@@ -1149,6 +1250,29 @@ function Projects({ darkMode }) {
                     <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 16, lineHeight: 1.7, color: darkMode ? "#94A3B8" : "#6B7280", marginBottom: 30 }}>
                       {details.overview}
                     </p>
+
+                    {selected?.projectUrl && (
+                      <div style={{ marginBottom: 24 }}>
+                        <a
+                          href={selected.projectUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          style={{
+                            fontSize: 13,
+                            fontWeight: 600,
+                            color: "#5B6CFF",
+                            textDecoration: "none",
+                            display: "inline-flex",
+                            alignItems: "center",
+                            gap: 4
+                          }}
+                          onMouseEnter={(e) => e.currentTarget.style.textDecoration = "underline"}
+                          onMouseLeave={(e) => e.currentTarget.style.textDecoration = "none"}
+                        >
+                          Visit Website  ↗
+                        </a>
+                      </div>
+                    )}
 
                     <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 30 }}>
                       <div>
