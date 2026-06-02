@@ -147,6 +147,22 @@ const PROJECTS = [
     ],
     icon: "📦",
   },
+  {
+    id: "inventory-order-mgmt",
+    title: "Containerized Inventory & Order System",
+    description:
+      "Production-ready enterprise dashboard featuring strict ACID transaction safety, pessimistic row locking, automatic soft deletions, and responsive SaaS styling.",
+    tech: ["React", "FastAPI", "PostgreSQL", "Docker", "MUI", "React Query"],
+    color: "#2563EB",
+    projectUrl: "https://inventory-n-order-mgmt.vercel.app/",
+    highlights: [
+      "ACID Transaction Safety",
+      "Pessimistic Row Locking",
+      "Automatic Soft Deletes",
+      "Docker Compose Orchestration"
+    ],
+    icon: "📦",
+  },
 ];
 
 const PROJECT_DETAILS = {
@@ -326,6 +342,42 @@ const PROJECT_DETAILS = {
     impact: [
       "Improved online presence",
       "Showcases technical skills effectively"
+    ]
+  },
+
+  "inventory-order-mgmt": {
+    title: "Containerized Inventory & Order Management System",
+    overview:
+      "A production-ready, fully containerized full-stack application for managing Products, Customers, and Orders. It features strict ACID transactional safety, concurrency guard-rails using database-level constraints and pessimistic row-locking to prevent overselling, automatic soft deletions preserving referential integrity, and a gorgeous, responsive React SaaS dashboard with dynamic SVG charting.",
+    features: [
+      "ACID order checkout transactions with automatic session rollbacks",
+      "Pessimistic row-locking (SELECT FOR UPDATE) preventing concurrent overselling",
+      "Dynamic soft delete (is_active boolean) preserving historical billing records",
+      "Responsive SaaS dashboard with custom SVG line and progress charts",
+      "Self-healing database schema generation on service start",
+      "Custom whitespace-trimming validation and request-latency logging middlewares"
+    ],
+    responsibilities: [
+      "Architected the complete Controller-Service-Repository backend in Python FastAPI",
+      "Designed PostgreSQL relational schemas with strict CHECK constraints (stock_quantity >= 0)",
+      "Built the responsive SaaS user interface using React 18, Material UI (MUI), and React Query",
+      "Implemented thread-safety rules inside Python services and SQL locks to handle peak traffic",
+      "Designed whitespace-trimming input sanitization and Request-ID logging middlewares",
+      "Orchestrated the multi-container local stack utilizing Docker, Docker Compose, and health checks"
+    ],
+    techStack: [
+      "React.js", "FastAPI", "SQLAlchemy ORM", "PostgreSQL", "React Query", "Material UI", "React Hook Form", "Zod", "Pydantic"
+    ],
+    devops: [
+      "Multi-stage Docker builds (Python 3.12-slim and Node 22-alpine)",
+      "Docker Compose orchestration with active healthchecks (pg_isready & /health)",
+      "Production deployment configuration via Render (Backend + Database) and Vercel (Frontend edge CDN)"
+    ],
+    impact: [
+      "100% thread safety under concurrent checkout requests",
+      "Zero orphan data records due to soft-deletion integrity",
+      "Minimal container footprints (multi-stage compiles)",
+      "Publicly deployable, robustly configured and fully verified"
     ]
   }
 };
